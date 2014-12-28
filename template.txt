@@ -1,0 +1,4 @@
+Name=Zach
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
