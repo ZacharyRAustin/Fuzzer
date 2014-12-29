@@ -3,5 +3,6 @@
 
 #define FILE_NOT_FOUND -1
 #define UNABLE_TO_CLOSE -2
+#define UNABLE_TO_READ_TEMPLATE -3
 
 #endif

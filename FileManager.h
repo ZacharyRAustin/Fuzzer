@@ -7,6 +7,7 @@
 int openTemplate();
 int readTemplate();
 int writeOutput();
+int closeTemplate();
 
 /*
  * Global Variables

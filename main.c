@@ -11,6 +11,8 @@ int main(int argc, char** argv){
 	{
 		int val = openTemplate();
 		printf("Value is: %d\n", val);
+		val = readTemplate();
+		printf("Value is: %d\n", val);
 		val = closeTemplate();
 		printf("Value is: %d\n", val);
 
