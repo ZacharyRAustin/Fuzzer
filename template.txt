@@ -1,4 +1,54 @@
-Name=Zach
+Name=Zach1
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach2
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach3
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach4
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach5
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach6
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach7
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach8
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach9
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach10
+Test=Testing Fuzzer
+Location=Here
+Output File=output.txt
+
+Name=Zach11
 Test=Testing Fuzzer
 Location=Here
 Output File=output.txt

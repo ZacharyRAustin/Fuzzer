@@ -32,8 +32,7 @@ int readTemplate(){
 	if(fd != NULL)
 	{
 		int curSize = INIT_BUFFER_SIZE;
-		char buf[curSize];
-		char* b = &buf[0];
+		char* b = malloc(curSize * sizeof(char));
 		int c;
 		int cnt = 0;
 
@@ -42,10 +41,12 @@ int readTemplate(){
 			if(cnt == curSize - 1)
 			{
 				int newSize = curSize * 2;
-				char temp[newSize];
-				memcpy(temp, buf, curSize * sizeof(char));
+				char* temp = b;
+				b = malloc(newSize * sizeof(char));
+				memset(b, '\0', newSize * sizeof(char));
+				memcpy(b, temp, curSize * sizeof(char));
+				free(temp);
 				curSize = newSize;
-				b = &temp[0];
 			}
 
 			b[cnt] = (char) c;
@@ -54,9 +55,10 @@ int readTemplate(){
 		}
 
 		b[cnt] = '\0';
-		printBuf(b);
 		
-		return strlen(b);
+		int bufSize = strlen(b);
+		free(b);
+		return bufSize;
 	}
 
 	return UNABLE_TO_READ_TEMPLATE;
@@ -84,4 +86,5 @@ int closeTemplate(){
 
 void printBuf(char* buf){
 	printf("%s\n", buf);
+	fflush(stdout);
 }
