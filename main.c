@@ -9,8 +9,11 @@ int main(int argc, char** argv){
 	}
 	else
 	{
-		int val = readTemplate();
+		int val = openTemplate();
 		printf("Value is: %d\n", val);
+		val = closeTemplate();
+		printf("Value is: %d\n", val);
+
 	}
 
 	return 0;
