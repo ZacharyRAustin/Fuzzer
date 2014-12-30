@@ -2,7 +2,7 @@ CC = gcc
 FLAGS = -Wall
 DEPS = definitions.h FileManager.h
 OBJ = main.o FileManager.o
-TARGET = main.o FileManager.o fuzzer
+TARGET = main.o FileManager.o fuzzer *.xml output.txt
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(FLAGS)
@@ -12,3 +12,7 @@ fuzzer: $(OBJ)
 
 clean: 
 	$(RM) $(TARGET)
+
+test: clean fuzzer
+	bash valgrind -q ./fuzzer 0;\
+	bash valgrind -q ./fuzzer 1;\

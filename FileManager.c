@@ -112,3 +112,50 @@ void printBuf(char* buf){
 	printf("%s\n", buf);
 	fflush(stdout);
 }
+
+/*
+ * Copy the template to the output file
+ * If the copy is successful, return the number of characters written
+ * If the template is not open, return UNABLE_TO_READ_TEMPLATE
+ * If the output file can't be opened, return UNABLE_TO_OPEN_OUTPUT
+ * if the number of characters read != number of characters written. return UNEQUAL_CHARACTER_COUNT
+ */
+int copyTemplate(){
+	if(fd != NULL)
+	{
+		FILE* out = fopen(OUTPUT_NAME, "w");
+		if(out != NULL)
+		{
+			int read = 0; 
+			int written = 0;
+			int val;
+
+			while((val = fgetc(fd)) != EOF)
+			{
+				int writeCheck = fputc((char) val, out);
+				read++;
+				if(writeCheck == val)
+				{
+					written++;
+				}
+			}
+
+			fclose(out);
+
+			if(written == read)
+			{
+				return written;
+			}
+			else
+			{
+				return UNEQUAL_CHARACTER_COUNT;
+			}
+		}
+		else
+		{
+			return UNABLE_TO_OPEN_OUTPUT;
+		}
+	}
+
+	return UNABLE_TO_READ_TEMPLATE;
+}
