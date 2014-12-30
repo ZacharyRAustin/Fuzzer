@@ -14,5 +14,4 @@ clean:
 	$(RM) $(TARGET)
 
 test: clean fuzzer
-	bash valgrind -q ./fuzzer 0;\
-	bash valgrind -q ./fuzzer 1;\
+	./testsuite.pl
