@@ -26,7 +26,7 @@ int fuzz(char* b){
 	int i;
 	int bufSize = strlen(b);
 	int cnt = 0;
-	for(i = 0; i < bufSize + 1; i++)
+	for(i = 0; i < bufSize; i++)
 	{
 		if(changeCharacter())
 		{

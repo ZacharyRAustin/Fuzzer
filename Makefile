@@ -2,7 +2,7 @@ CC = gcc
 FLAGS = -Wall
 DEPS = definitions.h FileManager.h fuzzer.h
 OBJ = main.o FileManager.o fuzzer.o
-TARGET = main.o FileManager.o fuzzer.o fuzzer *.xml output.txt
+TARGET = main.o FileManager.o fuzzer.o fuzzer *.xml output.txt output2.txt look.txt
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(FLAGS)
