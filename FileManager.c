@@ -11,6 +11,8 @@
 
 //class vars=================================================================
 FILE* fd;
+int bufSize;
+char* buffer;
 
 //function prototypes========================================================
 void printBuf(char*);
@@ -43,7 +45,7 @@ int readTemplate(){
 	if(fd != NULL)
 	{
 		int curSize = INIT_BUFFER_SIZE;
-		char* b = malloc(curSize * sizeof(char));
+		buffer = malloc(curSize * sizeof(char));
 		int c;
 		int cnt = 0;
 
@@ -52,23 +54,22 @@ int readTemplate(){
 			if(cnt == curSize - 1)
 			{
 				int newSize = curSize * 2;
-				char* temp = b;
-				b = malloc(newSize * sizeof(char));
-				memset(b, '\0', newSize * sizeof(char));
-				memcpy(b, temp, curSize * sizeof(char));
+				char* temp = buffer;
+				buffer = malloc(newSize * sizeof(char));
+				memset(buffer, '\0', newSize * sizeof(char));
+				memcpy(buffer, temp, curSize * sizeof(char));
 				free(temp);
 				curSize = newSize;
 			}
 
-			b[cnt] = (char) c;
+			buffer[cnt] = (char) c;
 
 			cnt++;
 		}
 
-		b[cnt] = '\0';
+		buffer[cnt] = '\0';
 
-		int bufSize = strlen(b);
-		free(b);
+		bufSize = strlen(buffer);
 		return bufSize;
 	}
 
@@ -81,7 +82,24 @@ int readTemplate(){
  * Return UNABLE_TO_WRITE_OUTPUT otherwise
  */
 int writeOutput(){
-	return -1;
+	FILE* out = fopen(OUTPUT_NAME, "w");
+	if(out != NULL)
+	{
+		int i;
+
+		for(i = 0; i < bufSize + 1; i++)
+		{
+			int writeCheck = fputc(buffer[i], out);
+			if(writeCheck == EOF && i != bufSize)
+			{
+				return UNABLE_TO_WRITE_OUTPUT;
+			}
+		}
+
+		return i;
+	}
+
+	return UNABLE_TO_WRITE_OUTPUT;
 }
 
 /*
@@ -115,6 +133,7 @@ void printBuf(char* buf){
 
 /*
  * Copy the template to the output file
+ * Uses fgetc because it is part of the standard C library and therefore portable
  * If the copy is successful, return the number of characters written
  * If the template is not open, return UNABLE_TO_READ_TEMPLATE
  * If the output file can't be opened, return UNABLE_TO_OPEN_OUTPUT
@@ -158,4 +177,11 @@ int copyTemplate(){
 	}
 
 	return UNABLE_TO_READ_TEMPLATE;
+}
+
+/*
+ * Frees the buffer
+ */
+void freeBuffer(){
+	free(buffer);
 }

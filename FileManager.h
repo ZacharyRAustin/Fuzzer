@@ -12,6 +12,8 @@ int openTemplate();
 int readTemplate();
 int writeOutput();
 int closeTemplate();
+void freeBuffer();
+int copyTemplate();
 
 /*
  * Global Variables
