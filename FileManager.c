@@ -190,6 +190,9 @@ void freeBuffer(){
 	free(buffer);
 }
 
+/*
+ * Returns the buffer
+ */
 char* getBuffer(){
 	return buffer;
 }
