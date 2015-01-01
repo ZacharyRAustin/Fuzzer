@@ -87,16 +87,17 @@ int writeOutput(){
 	{
 		int i;
 
-		for(i = 0; i < bufSize + 1; i++)
+		for(i = 0; i < bufSize; i++)
 		{
 			int writeCheck = fputc(buffer[i], out);
 			if(writeCheck == EOF && i != bufSize)
 			{
+				fclose(out);
 				return UNABLE_TO_WRITE_OUTPUT;
 			}
 		}
 
-		fputc(EOF, out);
+		// fputc(EOF, out);
 		fclose(out);
 		return i;
 	}
