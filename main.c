@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "FileManager.h"
+#include "fuzzer.h"
 
 int main(int argc, char** argv){
 	if(argc < 2)
@@ -22,11 +23,19 @@ int main(int argc, char** argv){
 		else
 		{
 			openTemplate();
-			// printf("Value is: %d\n", val);
 			readTemplate();
-			// printf("Value is: %d\n", val);
+			char* buffer = getBuffer();
+			seedRand();
+
+			int i;
+			for(i = 0; i < num_iterations; i++)
+			{
+				fuzz(buffer);
+			}
+			
+			writeOutput();
+			freeBuffer();
 			closeTemplate();
-			// printf("Value is: %d\n", val);
 		}
 
 	}

@@ -14,6 +14,7 @@ int writeOutput();
 int closeTemplate();
 void freeBuffer();
 int copyTemplate();
+char* getBuffer();
 
 /*
  * Global Variables

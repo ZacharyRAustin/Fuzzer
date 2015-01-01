@@ -1,8 +1,8 @@
 CC = gcc
 FLAGS = -Wall
-DEPS = definitions.h FileManager.h
-OBJ = main.o FileManager.o
-TARGET = main.o FileManager.o fuzzer *.xml output.txt
+DEPS = definitions.h FileManager.h fuzzer.h
+OBJ = main.o FileManager.o fuzzer.o
+TARGET = main.o FileManager.o fuzzer.o fuzzer *.xml output.txt
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(FLAGS)

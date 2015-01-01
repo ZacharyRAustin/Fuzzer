@@ -96,8 +96,12 @@ int writeOutput(){
 			}
 		}
 
+		fputc(EOF, out);
+		fclose(out);
 		return i;
 	}
+
+	fclose(out);
 
 	return UNABLE_TO_WRITE_OUTPUT;
 }
@@ -184,4 +188,8 @@ int copyTemplate(){
  */
 void freeBuffer(){
 	free(buffer);
+}
+
+char* getBuffer(){
+	return buffer;
 }
