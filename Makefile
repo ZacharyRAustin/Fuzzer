@@ -15,3 +15,8 @@ clean:
 
 test: clean fuzzer
 	./testsuite.pl
+
+add: test clean
+	make clean
+	git add .
+	git status
