@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "FileManager.h"
 #include "fuzzer.h"
+#include "buffer.h"
 
 int main(int argc, char** argv){
 	if(argc < 2)
@@ -11,8 +12,7 @@ int main(int argc, char** argv){
 	}
 	else
 	{
-		char* num_iterations_arg = argv[1];
-		int num_iterations = atoi(num_iterations_arg);
+		int num_iterations = atoi(argv[1]);
 		if(num_iterations < 1)
 		{
 			openTemplate();
@@ -22,19 +22,20 @@ int main(int argc, char** argv){
 		}
 		else
 		{
+			initBuffer();
 			openTemplate();
 			readTemplate();
-			char* buffer = getBuffer();
+			char* buffer = getBufferStart();
 			seedRand();
-
 			int i;
 			for(i = 0; i < num_iterations; i++)
 			{
+
 				fuzz(buffer);
 			}
 			
 			writeOutput();
-			freeBuffer();
+			closeBuffer();
 			closeTemplate();
 		}
 

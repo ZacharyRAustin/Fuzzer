@@ -1,8 +1,9 @@
-#include "FileManager.h"
-#include "definitions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "FileManager.h"
+#include "definitions.h"
+#include "buffer.h"
 
 //definitions================================================================
 #define TEMPLATE_NAME "template.txt"
@@ -11,8 +12,6 @@
 
 //class vars=================================================================
 FILE* fd;
-int bufSize;
-char* buffer;
 
 //function prototypes========================================================
 void printBuf(char*);
@@ -44,33 +43,32 @@ int openTemplate(){
 int readTemplate(){
 	if(fd != NULL)
 	{
-		int curSize = INIT_BUFFER_SIZE;
-		buffer = malloc(curSize * sizeof(char));
+		int curMaxSize = INIT_BUFFER_SIZE;
+		char* buffer = getNewBuffer(curMaxSize);
+		if(buffer == NULL)
+		{
+			return getErrorNum();
+		}
 		int c;
 		int cnt = 0;
 
 		while((c = fgetc(fd)) != EOF)
 		{
-			if(cnt == curSize - 1)
+			if(cnt == curMaxSize - 1)
 			{
-				int newSize = curSize * 2;
-				char* temp = buffer;
-				buffer = malloc(newSize * sizeof(char));
-				memset(buffer, '\0', newSize * sizeof(char));
-				memcpy(buffer, temp, curSize * sizeof(char));
-				free(temp);
-				curSize = newSize;
+				buffer = getNewBufferAndCopy(curMaxSize * 2);
+				if(buffer == NULL)
+				{
+					return getErrorNum();
+				}
+				curMaxSize = getNumberCharsAvail();
 			}
 
 			buffer[cnt] = (char) c;
 
 			cnt++;
 		}
-
-		buffer[cnt] = '\0';
-
-		bufSize = strlen(buffer);
-		return bufSize;
+		return getNumberCharsUsed();
 	}
 
 	return UNABLE_TO_READ_TEMPLATE;
@@ -83,10 +81,19 @@ int readTemplate(){
  */
 int writeOutput(){
 	FILE* out = fopen(OUTPUT_NAME, "w");
+	char* buffer = getBufferStart();
+	if(buffer == NULL)
+	{
+		return getErrorNum();
+	}
 	if(out != NULL)
 	{
 		int i;
-
+		int bufSize = getNumberCharsUsed();
+		if(bufSize < 0)
+		{
+			return getErrorNum();
+		}
 		for(i = 0; i < bufSize; i++)
 		{
 			int writeCheck = fputc(buffer[i], out);
@@ -182,18 +189,4 @@ int copyTemplate(){
 	}
 
 	return UNABLE_TO_READ_TEMPLATE;
-}
-
-/*
- * Frees the buffer
- */
-void freeBuffer(){
-	free(buffer);
-}
-
-/*
- * Returns the buffer
- */
-char* getBuffer(){
-	return buffer;
 }

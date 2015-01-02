@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "definitions.h"
 #include "buffer.h"
 
@@ -8,7 +9,8 @@
 //Typedefs==============================================================
 typedef struct charBuffer_t{
 	char* start;
-	int size;
+	int charsAvail;
+	int charsUsed;
 } charBufferT;
 
 //global class vars=====================================================
@@ -17,6 +19,8 @@ int errno;
 
 //function prototypes===================================================
 char* setBuffer(char* newStart, int bufSize);
+int calculateNumberCharsUsed();
+int setNumberCharsUsed(int num);
 
 //functions=============================================================
 /*
@@ -32,7 +36,8 @@ char* setBuffer(char* newStart, int bufSize);
  		closeBuffer();
  	}
  	buffer.start = NULL;
- 	buffer.size = -1;
+ 	buffer.charsAvail = -1;
+ 	buffer.charsUsed = 0;
  	errno = 0;
  }
 
@@ -55,7 +60,7 @@ char* setBuffer(char* newStart, int bufSize);
  		closeBuffer();
  	}
  	buffer.start = newStart;
- 	buffer.size = bufSize;
+ 	buffer.charsAvail = bufSize;
  	return buffer.start;
  }
 
@@ -77,9 +82,19 @@ char* setBuffer(char* newStart, int bufSize);
  * Returns the size of the buffer if one exists
  * Returns -1 if no buffer is set;
  */
- int getBufferSize(){
+ int getNumberCharsAvail(){
  	errno = 0;
- 	return buffer.size;
+ 	if(buffer.charsAvail < 1)
+ 	{
+ 		errno = NO_PREVIOUS_BUFFER;
+ 	}
+
+ 	return buffer.charsAvail;
+ }
+
+ int getNumberCharsUsed(){
+ 	errno = 0;
+ 	return calculateNumberCharsUsed();
  }
 
 /*
@@ -89,8 +104,9 @@ char* setBuffer(char* newStart, int bufSize);
  void closeBuffer(){
  	if(buffer.start != NULL)
  	{
- 		memset(buffer.start, '\0', buffer.size * sizeof(char));
- 		free(buffer.start);;
+ 		memset(buffer.start, '\0', buffer.charsAvail * sizeof(char));
+ 		free(buffer.start);
+ 		buffer.start = NULL;
  	}
 
  	initBuffer();
@@ -177,14 +193,14 @@ char* setBuffer(char* newStart, int bufSize);
  	}
 
 	//check new bufsize is large enough
- 	if(numCharacters < buffer.size)
+ 	if(numCharacters < buffer.charsAvail)
  	{
  		errno = NOT_ENOUGH_BUFFER_SPACE;
  		return NULL;
  	}
 
  	char* temp = buffer.start;
- 	int tempSize = buffer.size;
+ 	int tempSize = buffer.charsAvail;
 
  	char* newBuf = malloc(sizeof(char) * numCharacters);
 
@@ -202,13 +218,6 @@ char* setBuffer(char* newStart, int bufSize);
  		newBuf[i] = temp[i];
  	}
 
- 	if(!strcmp(temp, newBuf))
- 	{
- 		errno = UNABLE_TO_COPY_CONTENTS;
- 		free(newBuf);
- 		return NULL;
- 	}
-
  	closeBuffer();
  	return setBuffer(newBuf, numCharacters);
  }
@@ -219,3 +228,33 @@ char* setBuffer(char* newStart, int bufSize);
  int getErrorNum(){
  	return errno;
  }
+
+ /*
+  *
+  */
+  int setNumberCharsUsed(int num){
+  	if(num >= 0 && num <= buffer.charsAvail)
+  	{
+  		buffer.charsUsed = num;
+  		return 0;
+  	}
+  	return INVALID_ARGUMENTS;
+  }
+
+  /*
+   *
+   */
+   int calculateNumberCharsUsed(){
+   	int i;
+   	char* b = buffer.start;
+   	int max = buffer.charsAvail;
+   	for(i = 0; i < max; i++)
+   	{
+   		if(b[i] == '\0')
+   		{
+   			break;
+   		}
+   	}
+   	buffer.charsUsed = i;
+   	return i;
+   }

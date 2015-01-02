@@ -6,7 +6,8 @@
  */
  void initBuffer();
  char* getBufferStart();
- int getBufferSize();
+ int getNumberCharsAvail();
+ int getNumberCharsUsed();
  void closeBuffer();
  char* getNewBuffer(int numCharacters);
  char* getNewBufferAndCopy(int numCharacters);
