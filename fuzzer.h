@@ -4,7 +4,7 @@
 /*
  * Function prototypes
  */
-int fuzz(char* b);
+int fuzz(char* b, int bufSize);
 void seedRand();
 
 #endif

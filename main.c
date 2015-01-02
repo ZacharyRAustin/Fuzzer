@@ -28,10 +28,10 @@ int main(int argc, char** argv){
 			char* buffer = getBufferStart();
 			seedRand();
 			int i;
+			int bufSize = getNumberCharsUsed();
 			for(i = 0; i < num_iterations; i++)
 			{
-
-				fuzz(buffer);
+				fuzz(buffer, bufSize);
 			}
 			
 			writeOutput();

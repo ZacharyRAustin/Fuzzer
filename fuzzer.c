@@ -22,9 +22,8 @@ char getRandomCharacter();
  *
  * Returns the number of characters changed
  */
-int fuzz(char* b){
+int fuzz(char* b, int bufSize){
 	int i;
-	int bufSize = strlen(b);
 	int cnt = 0;
 	for(i = 0; i < bufSize; i++)
 	{
