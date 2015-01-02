@@ -17,9 +17,9 @@ $valgrindArgs[4] = "--xml-file=valgrind_output1.xml";
 system(@valgrindArgs);
 
 print "Running Word Count Check\n";
-checkWordCount();
+checkCharacterCount();
 
-sub checkWordCount{
+sub checkCharacterCount{
 	my $outputCount = `wc -m $output`;
 	my $templateCount = `wc -m $template`;
 
@@ -28,11 +28,11 @@ sub checkWordCount{
 
 	if($out[0] == $temp[0])
 	{
-		print "Word Counts are Equal\n";
+		print "Character counts are equal\n";
 	}
 	else
 	{
-		print "Word Counts are not equal: \n"; 
+		print "Character counts are not equal: \n"; 
 		print "$output: $out[0] words\n";
 		print "$template: $temp[0] words\n";
 	}
