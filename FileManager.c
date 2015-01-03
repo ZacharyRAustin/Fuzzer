@@ -37,8 +37,9 @@ int openTemplate(){
 /*
  * Read the template file into a buffer
  * Double buffer size when capacity is reached
- * If the file has been opened, return the number of characters in the buffer
- * Return UNABLE_TO_READ_TEMPLATE otherwise
+ * If the file has been transfered, return the number of characters in the buffer
+ * Return UNABLE_TO_READ_TEMPLATE if the template couldn't be opened
+ * If there is an error with getting the buffer, returns the error code
  */
 int readTemplate(){
 	if(fd != NULL)
@@ -77,7 +78,7 @@ int readTemplate(){
 /*
  * Write the buffer to the output file
  * If the write was successful, return the number of characters written
- * Return UNABLE_TO_WRITE_OUTPUT otherwise
+ * Returns an error code otherwise
  */
 int writeOutput(){
 	FILE* out = fopen(OUTPUT_NAME, "w");
