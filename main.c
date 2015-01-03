@@ -7,7 +7,7 @@
 int main(int argc, char** argv){
 	if(argc < 2)
 	{
-		printf("Usage: ./fuzzer num_iterations\n");
+		printf("Usage: ./fuzzer num_iterations [OPTIONAL] seed\n");
 		fflush(stdout);
 	}
 	else
@@ -17,7 +17,6 @@ int main(int argc, char** argv){
 		{
 			openTemplate();
 			copyTemplate();
-			// printf("Value is: %d\n", val);
 			closeTemplate();
 		}
 		else
@@ -26,7 +25,16 @@ int main(int argc, char** argv){
 			openTemplate();
 			readTemplate();
 			char* buffer = getBufferStart();
-			seedRand();
+			
+			if(argc > 2)
+			{
+				setRandSeed((unsigned int) atoi(argv[2]));
+			}
+			else
+			{
+				seedRand();
+			}
+			
 			int i;
 			int bufSize = getNumberCharsUsed();
 			for(i = 0; i < num_iterations; i++)

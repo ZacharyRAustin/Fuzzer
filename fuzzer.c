@@ -2,6 +2,7 @@
 #include "fuzzer.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //defintions====================================================
 #define SEED 54613846
@@ -68,3 +69,11 @@ int changeCharacter(){
 char getRandomCharacter(){
 	return (char) (32 + (rand() % 94));
 }
+
+/*
+ *
+ */
+ void setRandSeed(unsigned int s){
+ 	srand(s);
+ 	printf("Using seed %d\n", s);
+ }

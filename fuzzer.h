@@ -6,5 +6,6 @@
  */
 int fuzz(char* b, int bufSize);
 void seedRand();
+void setRandSeed(unsigned int s);
 
 #endif
