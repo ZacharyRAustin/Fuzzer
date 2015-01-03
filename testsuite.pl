@@ -4,19 +4,13 @@ use warnings;
 
 my $template = "template.txt";
 my $output = "output.txt";
+my @valgrindInputs = ("0", "1", "10000");
 
-print "Running test suite for Fuzzer\n";
+print "\nRunning test suite for Fuzzer\n";
 
-print "Running Valgrind tests\n";
-
-my @valgrindArgs = ("valgrind", "-v", "-q", "--xml=yes", "--xml-file=valgrind_output.xml", "--leak-check=full", "--show-reachable=yes", "--error-exitcode=2", "./fuzzer", "0");
-system(@valgrindArgs);
-
-$valgrindArgs[9] = "1";
-$valgrindArgs[4] = "--xml-file=valgrind_output1.xml";
-system(@valgrindArgs);
-
-print "Running Word Count Check\n";
+print "\nRunning Valgrind tests\n";
+checkValgrind();
+print "\nRunning Word Count Check\n";
 checkCharacterCount();
 
 sub checkCharacterCount{
@@ -39,5 +33,27 @@ sub checkCharacterCount{
 }
 
 sub checkValgrind{
+	my @valgrindArgs = ("valgrind", "./fuzzer", "0");
 
+	foreach(@valgrindInputs){
+		$valgrindArgs[2] = $_;
+		@valgrindOutput = `@valgrindArgs 2>&1`;
+		$check = 0;
+
+		foreach(@valgrindOutput){
+			if(index($_, "no leaks are possible") != -1)
+			{
+				$check = 1;
+			}
+		}
+
+		if($check == 0)
+		{
+			print "valgrind ./fuzzer $valgrindArgs[2]: FAILED\n";
+		}
+		else
+		{
+			printf "valgrind ./fuzzer $valgrindArgs[2]: PASSED\n";
+		}
+	}
 }
