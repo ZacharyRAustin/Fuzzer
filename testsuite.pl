@@ -6,12 +6,13 @@ my $template = "template.txt";
 my $output = "output.txt";
 my @valgrindInputs = ("0", "1", "10000");
 
-print "\nRunning test suite for Fuzzer\n";
+print "\n=====================Running test suite for Fuzzer======================\n";
 
 print "\nRunning Valgrind tests\n";
 checkValgrind();
 print "\nRunning Word Count Check\n";
 checkCharacterCount();
+print "\n==============================END OF TESTS==============================\n\n";
 
 sub checkCharacterCount{
 	my $outputCount = `wc -m $output`;

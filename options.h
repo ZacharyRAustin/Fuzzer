@@ -1,7 +1,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-void parseCommandLine(int argc, char** argv);
+int parseCommandLine(int argc, char** argv);
 
 int seedGiven();
 unsigned int getSeed();

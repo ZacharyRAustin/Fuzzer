@@ -2,27 +2,58 @@
 #include "options.h"
 #include "definitions.h"
 
+//definitions==================================================================
+
+//Typedefs=====================================================================
+typedef struct cmdLineOptions_t{
+	char* outputFile;
+	char* templateFile;
+	unsigned int seed;
+	int seedGiven;
+} cmdLineOptionsT;
+
+//global class vars============================================================
+cmdLineOptionsT options;
+
+//Function prototypes==========================================================
+int parseArg(char* arg);
+int errno;
+//Functions====================================================================
 /*
  * Parse the given command line
  * and set the appropriate options in options typedef
  */
-void parseCommandLine(int argc, char** argv){
+int parseCommandLine(int argc, char** argv){
+	options.outputFile = NULL;
+	options.templateFile = NULL;
+	options.seedGiven = 0;
+	errno = 0;
 
+	return 0;
 }
+
+/*
+ * Parse the specific argument and set it's option in cmdLineOptionsT
+ * If the argument cannot be parsed, set errno and return
+ * Otherwise return 0
+ */
+ int parseArg(char* arg){
+ 	return NULL;
+ }
 
 /*
  * Indicates whether a seed was given on the command line
  * Returns 1 if yes, 0 if no
  */
 int seedGiven(){
-	return NULL;
+	return options.seedGiven;
 }
 
 /*
  * Returns the seed provided via the command line
  */
 unsigned int getSeed(){
-	return NULL;
+	return options.seed;
 }
 
 /*
@@ -30,14 +61,19 @@ unsigned int getSeed(){
  * Returns 1 if yes, 0 if no
  */
 int outputGiven(){
-	return NULL;
+	if(options.outputFile != NULL)
+	{
+		return 1;
+	}
+
+	return 0;
 }
 
 /*
  * Returns the name of the file the fuzzed template should be written to 
  */
 char* getOutputFileName(){
-	return NULL;
+	return options.templateFile;
 }
 
 /*
@@ -45,12 +81,17 @@ char* getOutputFileName(){
  * Returns 1 if yes, 0 if no
  */
 int templateGiven(){
-	return NULL;
+	if(options.templateFile != NULL)
+	{
+		return 1;
+	}
+
+	return 0;
 }
 
 /*
  * Returns the name of the file the template should be read from
  */
 char* getTemplateFileName(){
-	return NULL;
+	return options.templateFile;
 }
